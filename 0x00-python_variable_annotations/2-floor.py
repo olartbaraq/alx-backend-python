@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Basic annotations - floor"""
 
 import math
 """ floor() method in Python returns the floor of a float"""
