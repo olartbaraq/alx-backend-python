@@ -7,7 +7,9 @@ from typing import Mapping, Any, Union, TypeVar
 T = TypeVar('T')
 """Decorator functions can be expressed via generics"""
 
-def safely_get_value(dct: Mapping, key: Any,
+
+def safely_get_value(dct: Mapping,
+                     key: Any,
                      default: Union[T, None]
                      ) -> Union[Any, T]:
     """return type annotations to the function"""
