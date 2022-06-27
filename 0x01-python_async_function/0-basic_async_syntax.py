@@ -8,6 +8,6 @@ from random import uniform
 
 async def wait_random(max_delay=10):
     """returns the delay time awaited from the function"""
-    time_delay = uniform(0, max_delay)
+    time_delay = uniform(0, max_delay+1)
     await_resp = await asyncio.sleep(time_delay)
     return time_delay
