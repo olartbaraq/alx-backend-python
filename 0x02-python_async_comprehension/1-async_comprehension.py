@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
+"""
+text file to return collected random
+numbers ansynchronously
+"""
 
+from typing import List
 import asyncio
 import random
-from typing import List
+
 
 async_generator = __import__('0-async_generator').async_generator
 
