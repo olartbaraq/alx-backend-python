@@ -44,7 +44,7 @@ class TestgetJson(unittest.TestCase):
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False})
     ])
-    def test_get_json(self, test_url: str, test_payload: dict) -> Mapping:
+    def test_get_json(self, test_url: str, test_payload) -> Mapping:
         """Test for correct results"""
         class payLoad():
             """creates a mock response having a json method"""
