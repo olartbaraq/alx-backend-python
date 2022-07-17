@@ -10,7 +10,7 @@ import utils
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    """class to test AccessNestedMap method 
+    """class to test AccessNestedMap method
         with unittest
     """
 
@@ -19,9 +19,18 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
-    def test_access_nested_map(self, nested_map: Mapping, path: Sequence, output) -> Union[Mapping, int]:
+    def test_access_nested_map(self, nested_map: Mapping,
+                               path: Sequence, output) -> Union[Mapping, int]:
         """method to test if accessnestedmap
             returns expected result.
         """
         self.assertEqual(utils.access_nested_map(nested_map, path), output)
-      
+
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b"))
+    ])
+    def test_access_nested_map_exception(self, nested_map: Mapping,
+                                         path: Sequence):
+        """to test that a keyError is raised"""
+        self.assertRaises(KeyError, utils.access_nested_map, nested_map, path)
