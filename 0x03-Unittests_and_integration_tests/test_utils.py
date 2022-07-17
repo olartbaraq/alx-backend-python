@@ -37,7 +37,7 @@ class TestAccessNestedMap(unittest.TestCase):
         self.assertRaises(KeyError, utils.access_nested_map, nested_map, path)
 
 
-class TestgetJson(unittest.TestCase):
+class TestGetJson(unittest.TestCase):
     """Tests Class for utils.get_json method"""
 
     @parameterized.expand([
