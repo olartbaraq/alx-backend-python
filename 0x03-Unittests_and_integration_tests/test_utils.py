@@ -4,7 +4,9 @@
 text file to Parameterize a unit test to return accurate result
 """
 from typing import Mapping, Sequence, Union
+import requests
 import unittest
+from unittest import mock
 from parameterized import parameterized
 import utils
 
@@ -34,3 +36,28 @@ class TestAccessNestedMap(unittest.TestCase):
                                          path: Sequence):
         """to test that a keyError is raised"""
         self.assertRaises(KeyError, utils.access_nested_map, nested_map, path)
+
+
+class TestgetJson(unittest.TestCase):
+    """Tests Class for utils.get_json method"""
+
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False})
+    ])
+    def test_get_json(self, url: str, test_payload) -> Mapping:
+        """Test for correct results"""
+        class payLoad():
+            """creates a mock response having a json method"""
+            def __init__(self, obj):
+                """Instantiation method"""
+                self.obj = obj
+
+            def json(self):
+                """state the json method and return"""
+                return self.obj
+
+        with mock.patch('requests.get', return_value=payLoad(test_payload))\
+                as mock.method:
+            self.assertEqual(utils.get_json(url), test_payload)
+            mock.method.assert_called_once_with(url)
