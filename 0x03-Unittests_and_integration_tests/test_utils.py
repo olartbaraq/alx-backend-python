@@ -6,8 +6,9 @@ text file to Parameterize a unit test to return accurate result
 from typing import Mapping, Sequence, Union
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from parameterized import parameterized
-import utils
+from utils import access_nested_map, get_json, memoize
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -25,7 +26,7 @@ class TestAccessNestedMap(unittest.TestCase):
         """method to test if accessnestedmap
             returns expected result.
         """
-        self.assertEqual(utils.access_nested_map(nested_map, path), output)
+        self.assertEqual(access_nested_map(nested_map, path), output)
 
     @parameterized.expand([
         ({}, ("a",)),
@@ -34,7 +35,7 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map_exception(self, nested_map: Mapping,
                                          path: Sequence):
         """to test that a keyError is raised"""
-        self.assertRaises(KeyError, utils.access_nested_map, nested_map, path)
+        self.assertRaises(KeyError, access_nested_map, nested_map, path)
 
 
 class TestGetJson(unittest.TestCase):
@@ -58,5 +59,31 @@ class TestGetJson(unittest.TestCase):
 
         with mock.patch('requests.get', return_value=payLoad(test_payload))\
                 as mock_method:
-            self.assertEqual(utils.get_json(test_url), test_payload)
+            self.assertEqual(get_json(test_url), test_payload)
             mock_method.assert_called_once_with(test_url)
+
+
+class TestMemoize(unittest.TestCase):
+    """ Class for Testing Memoize """
+
+    def test_memoize(self):
+        """ Test that when calling a_property twice, the correct result
+        is returned but a_method is only called once using
+        assert_called_once
+        """
+
+        class TestClass:
+            """ Test Class for wrapping with memoize """
+
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        with patch.object(TestClass, 'a_method') as mock:
+            test_class = TestClass()
+            test_class.a_property()
+            test_class.a_property()
+            mock.assert_called_once()
