@@ -7,7 +7,7 @@ from fixtures import TEST_PAYLOAD
 from parameterized import parameterized, parameterized_class
 import json
 import unittest
-from unittest.mock import patch, PropertyMock, Mock 
+from unittest.mock import patch, PropertyMock, Mock
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -23,7 +23,6 @@ class TestGithubOrgClient(unittest.TestCase):
         test_class = GithubOrgClient(input)
         test_class.org()
         mock.assert_called_once_with(f'https://api.github.com/orgs/{input}')
-
 
     def test_public_repos_url(self):
         """ Test that the result of _public_repos_url is the expected one
